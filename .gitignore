@@ -219,4 +219,4 @@ __marimo__/
 
 
 # exe
-pandoc.exe
+*.exe
