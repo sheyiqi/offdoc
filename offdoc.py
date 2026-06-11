@@ -6,6 +6,9 @@ import math
 import numpy
 from pprint import pprint
 from tabulate import tabulate
+import warnings
+
+warnings.filterwarnings("ignore", category=UserWarning, module="openpyxl")
 
 
 def parser():
@@ -28,7 +31,6 @@ Example:
     parse.add_argument("-template", help="specify a datasheet template dir.", required=True)
     parse.add_argument("-output", help="specify a output markdown file name.", required=True)
     args = parse.parse_args()
-    print(args)
     cfg = args.cfg
     if os.path.exists(cfg):
         pass
@@ -168,7 +170,6 @@ def search_md(output, conf_list, template_dir, Compiler_Name, IP_Prefix):
     for file in files:
         if not os.path.isdir(file) and str(file).endswith(".md"):
             active_md.append(file)
-    print(active_md)
     matched_md = list()
     for conf in conf_list:
         match_tag = 0
@@ -179,7 +180,6 @@ def search_md(output, conf_list, template_dir, Compiler_Name, IP_Prefix):
         if match_tag != 1:
             raise FileExistsError("{} can not search {} md file.".format(sys.argv[0], conf))
             sys.exit("-1")
-    pprint(matched_md, width=1000)
     ### generate total md
     total_cont = str()
     for md in matched_md:

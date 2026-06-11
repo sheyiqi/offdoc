@@ -1,5 +1,5 @@
 ---
-title: "XYZ High Speed One Port Register File User Manual"
+title: "XYZ High Speed Single Port SRAM Compiler User Manual"
 toc-title: "Contents"
 ---
 
@@ -9,7 +9,7 @@ toc-title: "Contents"
 
 ## Product Overview
 
-This chapter provides an overview of the embedded memories of High Speed One Port Register File memory compiler.
+This chapter provides an overview of the embedded memories of High Speed Single Port SRAM Compiler memory compiler.
 
 
 ###  Memory Compilers
@@ -28,16 +28,16 @@ The following table shows the structure of the name for the compiler.
 
 
 +----------------+----------------------------+---------------+
-| Name Segment   | Character in "XYZHS1PRF"   | Description   |
+| Name Segment   | Character in "XYZHSSPSR"   | Description   |
 +================+============================+===============+
 | Technology &   | XYZ                        | Process Node  |
 | Process        |                            |               |
 +----------------+----------------------------+---------------+
 | Product type   | HS                         | High Speed    |
 +----------------+----------------------------+---------------+
-| Ports          | 1P                         | One Port      |
+| Ports          | SP                         | Single Port   |
 +----------------+----------------------------+---------------+
-| Product        | RF                         | Register File |
+| Product        | SR                         | SRAM Compiler |
 | subfamily      |                            |               |
 +----------------+----------------------------+---------------+
 
@@ -130,13 +130,13 @@ Memory compilers support the following features:
 The default setting and available options of `Periphery_Vt` are shown in the following table.
 
 
-+-----------------+-------------------------------------+
-| Compiler Name   | High Speed One Port Register File   |
-+=================+=====================================+
-| LVT             | Low                                 |
-+-----------------+-------------------------------------+
-| ULVT            | UltraLow                            |
-+-----------------+-------------------------------------+
++-----------------+----------------------------------------+
+| Compiler Name   | High Speed Single Port SRAM Compiler   |
++=================+========================================+
+| LVT             | Low                                    |
++-----------------+----------------------------------------+
+| ULVT            | UltraLow                               |
++-----------------+----------------------------------------+
 
 Table: Periphery Vt Settings
 
@@ -147,13 +147,12 @@ The devices used by different `Periphery_Vt` options are listed in the following
 +-----------------+-------------------------------------+
 | Compiler Name   | High Speed One Port Register File   |
 +=================+=====================================+
-| LVT             | lvt and lvtll,                      |
-|                 | ulvt, ulvtll,                       |
-|                 | elvt                                |
+| LVT             | lvtll, lvt,                         |
+|                 | ulvtll and ulvt                     |
 +-----------------+-------------------------------------+
-| ULVT            | ulvt and                            |
-|                 | ulvtll, lvt,                        |
-|                 | lvtll, elvt                         |
+| ULVT            | lvtll, lvt,                         |
+|                 | ulvtll and                          |
+|                 | ulvt, elvt                          |
 +-----------------+-------------------------------------+
 
 Table: Devices in Periphery Vt
@@ -189,37 +188,23 @@ Table: Performance Shape Settings
 
 #### Bit Write
 
+XYZ memory compilers provide the Bit Write feature.
 
+Bit Write provides bit write option which instances I/O can write independently. When bit write option is ON, BWEN becomes a bus. When bit write option is OFF, there is no BWEN pin.
 
-+-----------+------------------------------------------------------------------------+
-| Feature   | Description                                                            |
-+===========+========================================================================+
-| Bit Write | Memory compilers provide the Bit Write Enable feature.\                |
-| Enable    | - If the BWEN = 0,  the corresponding bit’s data is written to the bit |
-|           | cell array.\                                                           |
-|           | - If the BWEN = 1,  the corresponding bit’s data is not written to the |
-|           | bit cell array.                                                        |
-+-----------+------------------------------------------------------------------------+
+- If the `BWEN` pin for an I/O is low, the data on the input pin (`D`) is written to the corresponding bit cell in the addressed location.
+- If the `BWEN` pin for an I/O is high, the data on the input pin (`D`) is not written to the corresponding bit cell in the addressed location.
 
-Table: Bit Write Enable
+There is no loss of power or speed when the Bit Write feature is enabled. However, power will be reduced by disabling writes using these pins.
+
 
 #### CEN-Gating
 
+XYZ memory compilers optionally support the Chip Enable Gating feature.
 
-+------------+----------------------------------------------------------------------+
-| Feature    | Description                                                          |
-+============+======================================================================+
-| CEN-Gating | By default, the A/D/WEN/BWEN input pins are not gated by the CEN pin |
-|            | may increase toggle power. In this case, CEN requires a relatively   |
-|            | small setup time.\                                                   |
-|            | To reduce the toggle power of the input pins, users can enable the   |
-|            | CEN-Gating feature; however, the setup time of CEN may increase.     |
-+------------+----------------------------------------------------------------------+
+By default, the address `A` pins and data input `D` pins are not gated by the `CEN` pin may increase toggle power. In this case, `CEN` requires a relatively small setup time.
 
-Table: CEN-Gating
-
-
-
+To reduce the toggle power of the address `A` pins and data input `D` pins, users can enable the `CEN-Gating feature`; however, the setup time of CEN may increase.
 
 
 #### Power Gating
@@ -285,13 +270,13 @@ Table: Repair Elements Mode
 
 
 
-![Column Redundancy Replace Mechanism](../Template/SC/V02/Figure\High Speed One Port Register File\Column_Redundancy_replace_mechanism.png)
+![Column Redundancy Replace Mechanism](../Template/SC/V02/Figure\High Speed Single Port SRAM Compiler\Column_Redundancy_replace_mechanism.png)
 
 Figure show an example of the column redundancy replace mechanism in a 8 bits column Mux memory instance. In the case, 6th IO needs to be repaired. Once redundancy DFF chain be configured, redundancy scheme works. Q[7] receives the output of the redundant sub-array, Q[6] receives the output of Q[7], then replacement complete. The rest IO[0]~IO[5] receive the output of themselves.
 
 One IO where defect is detected can be replaced by redundancy. All data flip-flop which used to configure redundancy logic to column redundant substitution. The redundant substitution of configure choose based on memory`s bit width of input data bus.
 
-![Column Redundancy Waveform](../Template/SC/V02/Figure\High Speed One Port Register File\1_Column_redundancy.png)
+![Column Redundancy Waveform](../Template/SC/V02/Figure\High Speed Single Port SRAM Compiler\1_Column_redundancy.png)
 
 Figure shows the scan sequence of 1 column redundant substitution is followed by least significant bit of io address (0), then io address increasing until most significant bit of io address (N-2) is captured, and finally redundancy enable signal (N-1) is the last signal of scan sequence.
 
@@ -323,7 +308,7 @@ The write operation process of differential SRAM is as follows:
 
 - The word line is activated, and the input data is driven to the bit line pair, maintaining logic 0 and 1 respectively.
 - The bit line of logic 0 pulls down the memory storage node of the bitcell through the transmission gate.
-- The storage node changes logic 1 to logic 0 through the cross-couple structure
+- The storage node changes logic 1 to logic 0 through the cross-couple structure.
 
 Both read and write operations in SRAM require a certain amount of time to ensure their completion. In fact, there is a negative correlation between the capacity and yield of SRAM, meaning that a larger capacity often indicates a lower yield.
 
@@ -351,13 +336,17 @@ The `Timing Margin Control` settings are user-adjustable. The user-side `TM` int
 +----------------+-------+-------------------+
 | Periphery_Vt   | Mux   | Default TM[3:0]   |
 +================+=======+===================+
-| LVT            | 2     | 0100              |
+| LVT            | 4     | 0011              |
 +----------------+-------+-------------------+
-| LVT            | 4     | 0100              |
+| LVT            | 8     | 0011              |
 +----------------+-------+-------------------+
-| ULVT           | 2     | 0100              |
+| LVT            | 16    | 0011              |
 +----------------+-------+-------------------+
 | ULVT           | 4     | 0011              |
++----------------+-------+-------------------+
+| ULVT           | 8     | 0011              |
++----------------+-------+-------------------+
+| ULVT           | 16    | 0011              |
 +----------------+-------+-------------------+
 
 Table: Default TM Bus Settings
@@ -379,7 +368,7 @@ Table: Default TM Bus Settings
 
 ### Specifications
 
-The specifications of High Speed One Port Register File.
+The specifications of High Speed Single Port SRAM Compiler.
 
 #### Pin Description
 
@@ -490,13 +479,23 @@ Table: Output Pin Description
 | Column\   | Bank   | Word\   |   Word\ |   Word\ |   Bit\ |   Bit\ |   Bit\ | Maximum\   |
 | Mux       |        | Step    |     Min |     Max |   Step |    Min |    Max | Density    |
 +===========+========+=========+=========+=========+========+========+========+============+
-| 2         | 1      | 8       |      16 |     512 |      2 |      8 |    288 | 144Kb      |
+| 4         | 1      | 16      |      32 |    1024 |      1 |      8 |    320 | 320Kb      |
 +-----------+--------+---------+---------+---------+--------+--------+--------+------------+
-| 2         | 2      | 8       |      32 |    1024 |      2 |      8 |    288 | 288Kb      |
+| 4         | 2      | 16      |      64 |    2048 |      1 |      8 |    320 | 640Kb      |
 +-----------+--------+---------+---------+---------+--------+--------+--------+------------+
-| 4         | 1      | 16      |      32 |    1024 |      1 |      8 |    144 | 144Kb      |
+| 4         | 4      | 16      |     128 |    4096 |      1 |      8 |    320 | 1280Kb     |
 +-----------+--------+---------+---------+---------+--------+--------+--------+------------+
-| 4         | 2      | 16      |      64 |    2048 |      1 |      8 |    144 | 288Kb      |
+| 8         | 1      | 32      |      64 |    2048 |      1 |      8 |    160 | 320Kb      |
++-----------+--------+---------+---------+---------+--------+--------+--------+------------+
+| 8         | 2      | 32      |     128 |    4096 |      1 |      8 |    160 | 640Kb      |
++-----------+--------+---------+---------+---------+--------+--------+--------+------------+
+| 8         | 4      | 32      |     256 |    8192 |      1 |      8 |    160 | 1280Kb     |
++-----------+--------+---------+---------+---------+--------+--------+--------+------------+
+| 16        | 1      | 64      |     128 |    4096 |      1 |      8 |     80 | 320Kb      |
++-----------+--------+---------+---------+---------+--------+--------+--------+------------+
+| 16        | 2      | 64      |     256 |    8192 |      1 |      8 |     80 | 640Kb      |
++-----------+--------+---------+---------+---------+--------+--------+--------+------------+
+| 16        | 4      | 64      |     512 |   16384 |      1 |      8 |     80 | 1280Kb     |
 +-----------+--------+---------+---------+---------+--------+--------+--------+------------+
 
 Table: Compiler Range
@@ -513,11 +512,12 @@ Table: Compiler Range
 ##### Memory Function Truth Table
 
 > Note: In the above truth table, the state of test signals is `T_ICLKBYP=L`.\
->       After Power up, before starting normal memory operation (read/write), a `Negedge(1->0)` must be performed on `FRSRST` first.\
+>      Before starting normal memory operation (read/write), a `Negedge(1->0)` must be performed on `FRSRST` first.\
 >       `NCM`: Memory bit-cell contents remain unchanged.\
 >       `Q-1`: Maintains the state of the previous cycle.\
 >       `Q`: Output without `CLK` latency.
 
+The following table shows the memory function truth table for this compiler.
 
 
 
@@ -537,7 +537,6 @@ Table: Compiler Range
 +------------+-------+-------+-------+--------+---------+-----+------------+
 
 Table: Memory Function Truth Table
-
 
 
 ##### Power Mode Truth Table
@@ -616,31 +615,32 @@ The figure below shows the conventions used in the waveform diagrams.
 
 
 
-![Waveform Conventions](../Template/SC/V02/Figure\High Speed One Port Register File\waveform_conventions.png)
+![Waveform Conventions](../Template/SC/V02/Figure\High Speed Single Port SRAM Compiler\waveform_conventions.png)
 
 
 
-![Read Cycle Timing Diagram](../Template/SC/V02/Figure\High Speed One Port Register File\read_cycle_timing_diagram.png)
-
-
-
-
-![Write Cycle Timing Diagram](../Template/SC/V02/Figure\High Speed One Port Register File\write_cycle_timing_diagram.png)
-
-
-
-![Light Sleep Mode Work Function Diagram](../Template/SC/V02/Figure\High Speed One Port Register File\light_sleep_mode_work_function_diagram.png)
+![Read Cycle Timing Diagram](../Template/SC/V02/Figure\High Speed Single Port SRAM Compiler\read_cycle_timing_diagram.png)
 
 
 
 
-
-![Deep Sleep Mode Work Function Diagram](../Template/SC/V02/Figure\High Speed One Port Register File\deep_sleep_mode_work_function_diagram.png)
-
+![Write Cycle Timing Diagram](../Template/SC/V02/Figure\High Speed Single Port SRAM Compiler\write_cycle_timing_diagram.png)
 
 
 
-![Shut Down Mode Work Function Diagram](../Template/SC/V02/Figure\High Speed One Port Register File\shut_down_mode_work_function_diagram.png)
+![Light Sleep Mode Work Function Diagram](../Template/SC/V02/Figure\High Speed Single Port SRAM Compiler\light_sleep_mode_work_function_diagram.png)
+
+
+
+
+
+
+![Deep Sleep Mode Work Function Diagram](../Template/SC/V02/Figure\High Speed Single Port SRAM Compiler\deep_sleep_mode_work_function_diagram.png)
+
+
+
+
+![Shut Down Mode Work Function Diagram](../Template/SC/V02/Figure\High Speed Single Port SRAM Compiler\shut_down_mode_work_function_diagram.png)
 
 
 
@@ -675,8 +675,6 @@ The figure below shows the conventions used in the waveform diagrams.
 +------------------------------------------+-----------+--------+---------+----------------+------------------+
 
 Table: Standard PVT Corners - Single Rail
-
-
 
 
 

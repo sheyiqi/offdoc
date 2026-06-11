@@ -1,5 +1,5 @@
 ---
-title: "XYZ High Speed One Port Register File User Manual"
+title: "XYZ High Density One Port Register File User Manual"
 toc-title: "Contents"
 ---
 
@@ -9,7 +9,7 @@ toc-title: "Contents"
 
 ## Product Overview
 
-This chapter provides an overview of the embedded memories of High Speed One Port Register File memory compiler.
+This chapter provides an overview of the embedded memories of High Density One Port Register File memory compiler.
 
 
 ###  Memory Compilers
@@ -28,12 +28,12 @@ The following table shows the structure of the name for the compiler.
 
 
 +----------------+----------------------------+---------------+
-| Name Segment   | Character in "XYZHS1PRF"   | Description   |
+| Name Segment   | Character in "XYZHD1PRF"   | Description   |
 +================+============================+===============+
 | Technology &   | XYZ                        | Process Node  |
 | Process        |                            |               |
 +----------------+----------------------------+---------------+
-| Product type   | HS                         | High Speed    |
+| Product type   | HD                         | High Density  |
 +----------------+----------------------------+---------------+
 | Ports          | 1P                         | One Port      |
 +----------------+----------------------------+---------------+
@@ -130,13 +130,13 @@ Memory compilers support the following features:
 The default setting and available options of `Periphery_Vt` are shown in the following table.
 
 
-+-----------------+-------------------------------------+
-| Compiler Name   | High Speed One Port Register File   |
-+=================+=====================================+
-| LVT             | Low                                 |
-+-----------------+-------------------------------------+
-| ULVT            | UltraLow                            |
-+-----------------+-------------------------------------+
++-----------------+---------------------------------------+
+| Compiler Name   | High Density One Port Register File   |
++=================+=======================================+
+| LVT             | Default                               |
++-----------------+---------------------------------------+
+| ULVT            | UltraLow                              |
++-----------------+---------------------------------------+
 
 Table: Periphery Vt Settings
 
@@ -144,17 +144,17 @@ Table: Periphery Vt Settings
 The devices used by different `Periphery_Vt` options are listed in the following table.
 
 
-+-----------------+-------------------------------------+
-| Compiler Name   | High Speed One Port Register File   |
-+=================+=====================================+
-| LVT             | lvt and lvtll,                      |
-|                 | ulvt, ulvtll,                       |
-|                 | elvt                                |
-+-----------------+-------------------------------------+
-| ULVT            | ulvt and                            |
-|                 | ulvtll, lvt,                        |
-|                 | lvtll, elvt                         |
-+-----------------+-------------------------------------+
++-----------------+---------------------------------------+
+| Compiler Name   | High Density One Port Register File   |
++=================+=======================================+
+| LVT             | lvt and lvtll,                        |
+|                 | ulvtll, ulvt,                         |
+|                 | elvt                                  |
++-----------------+---------------------------------------+
+| ULVT            | ulvt and lvtll,                       |
+|                 | lvt, ulvtll,                          |
+|                 | elvt                                  |
++-----------------+---------------------------------------+
 
 Table: Devices in Periphery Vt
 
@@ -285,13 +285,13 @@ Table: Repair Elements Mode
 
 
 
-![Column Redundancy Replace Mechanism](../Template/SC/V02/Figure\High Speed One Port Register File\Column_Redundancy_replace_mechanism.png)
+![Column Redundancy Replace Mechanism](../Template/SC/V02/Figure\High Density One Port Register File\Column_Redundancy_replace_mechanism.png)
 
 Figure show an example of the column redundancy replace mechanism in a 8 bits column Mux memory instance. In the case, 6th IO needs to be repaired. Once redundancy DFF chain be configured, redundancy scheme works. Q[7] receives the output of the redundant sub-array, Q[6] receives the output of Q[7], then replacement complete. The rest IO[0]~IO[5] receive the output of themselves.
 
 One IO where defect is detected can be replaced by redundancy. All data flip-flop which used to configure redundancy logic to column redundant substitution. The redundant substitution of configure choose based on memory`s bit width of input data bus.
 
-![Column Redundancy Waveform](../Template/SC/V02/Figure\High Speed One Port Register File\1_Column_redundancy.png)
+![Column Redundancy Waveform](../Template/SC/V02/Figure\High Density One Port Register File\1_Column_redundancy.png)
 
 Figure shows the scan sequence of 1 column redundant substitution is followed by least significant bit of io address (0), then io address increasing until most significant bit of io address (N-2) is captured, and finally redundancy enable signal (N-1) is the last signal of scan sequence.
 
@@ -313,7 +313,8 @@ In this mode (T\_ICLKBYP=1), the memory’s internal self-timing loop is breakdo
 
 Memory compilers provide the Timing Margin Control feature.
 
-The read and write operation time of SRAM is controlled by Timing Margin.The read operation process of differential SRAM is as follows:
+The read and write operation time of SRAM is controlled by Timing Margin.
+The read operation process of differential SRAM is as follows:
 
 - The word line transitions to a high voltage level, and the bit line precharge signal is disabled.
 - The internal signal of the bitcell pulls down the corresponding bit line through the transmission gate, creating a small voltage difference.
@@ -323,13 +324,13 @@ The write operation process of differential SRAM is as follows:
 
 - The word line is activated, and the input data is driven to the bit line pair, maintaining logic 0 and 1 respectively.
 - The bit line of logic 0 pulls down the memory storage node of the bitcell through the transmission gate.
-- The storage node changes logic 1 to logic 0 through the cross-couple structure
+- The storage node changes logic 1 to logic 0 through the cross-couple structure.
 
 Both read and write operations in SRAM require a certain amount of time to ensure their completion. In fact, there is a negative correlation between the capacity and yield of SRAM, meaning that a larger capacity often indicates a lower yield.
 
 As the capacity increases, SRAM bitcell exhibits varying variability, leading to distinct characteristics in its read and write capabilities. This variability can be mitigated by extending the duration of read and write operations. This underscores the trade-off between memory speed and yield/reliability: a longer delay enhances read robustness but slows down the operational speed.
 
-Memory compiler controls the operating frequency of the compiler and the robustness of SRAM read and write operations through  `Timing Margin Control`.
+Memory compiler controls the operating frequency of the compiler and the robustness of SRAM read and write operations through `Timing Margin Control`.
 
 +---------------+--------------------------------------------------------------+
 | Timing Mode   | Description                                                  |
@@ -351,18 +352,18 @@ The `Timing Margin Control` settings are user-adjustable. The user-side `TM` int
 +----------------+-------+-------------------+
 | Periphery_Vt   | Mux   | Default TM[3:0]   |
 +================+=======+===================+
-| LVT            | 2     | 0100              |
+| LVT            | 2     | 1000              |
 +----------------+-------+-------------------+
-| LVT            | 4     | 0100              |
+| LVT            | 4     | 1000              |
 +----------------+-------+-------------------+
-| ULVT           | 2     | 0100              |
+| ULVT           | 2     | 1000              |
 +----------------+-------+-------------------+
-| ULVT           | 4     | 0011              |
+| ULVT           | 4     | 1000              |
 +----------------+-------+-------------------+
 
 Table: Default TM Bus Settings
 
-> Note: For additional characterization data of TM settings, users can contact the Support Team.
+> Note: For additional characterization data of TM settings, users can contact the XYZ Support Team.
 
 
 
@@ -379,7 +380,7 @@ Table: Default TM Bus Settings
 
 ### Specifications
 
-The specifications of High Speed One Port Register File.
+The specifications of High Density One Port Register File.
 
 #### Pin Description
 
@@ -388,64 +389,144 @@ The specifications of High Speed One Port Register File.
 
 
 
-+--------------+--------------------+------------------------------------------------------------------------+
-| Signal       | Enabled            | Description                                                            |
-+==============+====================+========================================================================+
-| A [m-1:0]    | Always             | Address input.                                                         |
-+--------------+--------------------+------------------------------------------------------------------------+
-| D [n-1:0]    | Always             | Data input.                                                            |
-+--------------+--------------------+------------------------------------------------------------------------+
-| BWEN [n-1:0] | Bit Write feature  | Bit Write Enable. Bit Write is enabled when BWEN is Logic Low. When    |
-|              |                    | the Bit Write feature is included,  write operation can be performed   |
-|              |                    | by enabled I/Os bits.                                                  |
-+--------------+--------------------+------------------------------------------------------------------------+
-| WEN          | Always             | Global Write Enable input. The memory is in the Write cycle when the   |
-|              |                    | Global Write Enable input is Logic Low; the memory is in the Read      |
-|              |                    | cycle when it is Logic High.                                           |
-+--------------+--------------------+------------------------------------------------------------------------+
-| CEN          | Always             | Chip Enable input. The memory is enabled and can perform read/write    |
-|              |                    | operations when CEN is Logic Low; the memory is disabled when it is    |
-|              |                    | Logic High.                                                            |
-+--------------+--------------------+------------------------------------------------------------------------+
-| CLK          | Always             | External Clock input.                                                  |
-+--------------+--------------------+------------------------------------------------------------------------+
-| FRSIN        | Redundancy feature | Faulty Repair Register Scan Input.  Redundancy Scan input bit.         |
-+--------------+--------------------+------------------------------------------------------------------------+
-| FRSE         | Redundancy feature | Faulty Repair Register Scan Enable Input.  Redundancy Scanning enable, |
-|              |                    | active high.                                                           |
-+--------------+--------------------+------------------------------------------------------------------------+
-| FRSRST       | Redundancy feature | Faulty Repair Register Scan Asynchronous Reset Input. Before memory    |
-|              |                    | normal access,  FRSRST must be performed a high to low(negative edge)  |
-|              |                    | control signal.                                                        |
-+--------------+--------------------+------------------------------------------------------------------------+
-| FRSCLK       | Redundancy feature | Faulty Repair Register Scan Clock.                                     |
-+--------------+--------------------+------------------------------------------------------------------------+
-| T_ICLKBYP    | Self Time Bypass   | This pin must be controlled by software/firmware in silicon.  \        |
-|              | feature            | In this mode (T_ICLKBYP=1), the memory’s internal self-timing loop is  |
-|              |                    | breakdown, and memory operation timing is controled by external CLK.   |
-|              |                    | It’s for memory debug purpose.                                         |
-+--------------+--------------------+------------------------------------------------------------------------+
-| TME          | Always             | This pin must be controlled by software/firmware in silicon. \         |
-|              |                    | Timing Margin Control Enable input.\                                   |
-|              |                    | TME = 0, select the default Timing Margin Control setting; \           |
-|              |                    | TME = 1, select the external Timing Margin Control pin setting.        |
-+--------------+--------------------+------------------------------------------------------------------------+
-| TM[3:0]      | Always             | This pin must be controlled by software/firmware in silicon.  \        |
-|              |                    | Timing Margin Control Input bus. \                                     |
-|              |                    | The setting of TM[3:0] controls the Tcq and Tcyc value of memory. \    |
-|              |                    | TM[3:0] = 4’b0000 is the slowest operating mode.                       |
-+--------------+--------------------+------------------------------------------------------------------------+
-| LS           | Always             | Light Sleep Mode Contorl Input. When the memory is disabled and this   |
-|              |                    | pin is set logic High, the memory enters low leakage mode. The output  |
-|              |                    | state remains unchanged.                                               |
-+--------------+--------------------+------------------------------------------------------------------------+
-| DS           | Power Gating       | Deep Sleep Mode Control Input. This pin turns off the periphery power  |
-|              | feature            | supply while retaining the memory contents. The outputs of the memory  |
-|              |                    | are pulled low.                                                        |
-+--------------+--------------------+------------------------------------------------------------------------+
-| SD           | Power Gating       | Shut Down Mode Contorl Input. This pin turns off the power supply to   |
-|              | feature            | the periphery and memory core, and does not retain the memory data.    |
-+--------------+--------------------+------------------------------------------------------------------------+
++---------------+----------------------+------------------------------------------------------------------------+
+| Signal        | Enabled              | Description                                                            |
++===============+======================+========================================================================+
+| A [m-1:0]     | Always               | Address input.                                                         |
++---------------+----------------------+------------------------------------------------------------------------+
+| D [n-1:0]     | Always               | Data input.                                                            |
++---------------+----------------------+------------------------------------------------------------------------+
+| BWEN [n-1:0]  | Bit Write feature    | Bit Write Enable. Bit Write is enabled when BWEN is Logic Low. When    |
+|               |                      | the Bit Write feature is included,  write operation can be performed   |
+|               |                      | by enabled I/Os bits.                                                  |
++---------------+----------------------+------------------------------------------------------------------------+
+| WEN           | Always               | Global Write Enable input. The memory is in the Write cycle when the   |
+|               |                      | Global Write Enable input is Logic Low; the memory is in the Read      |
+|               |                      | cycle when it is Logic High.                                           |
++---------------+----------------------+------------------------------------------------------------------------+
+| CEN           | Always               | Chip Enable input. The memory is enabled and can perform read/write    |
+|               |                      | operations when CEN is Logic Low; the memory is disabled when it is    |
+|               |                      | Logic High.                                                            |
++---------------+----------------------+------------------------------------------------------------------------+
+| CLK           | Always               | External Clock input.                                                  |
++---------------+----------------------+------------------------------------------------------------------------+
+| FRSIN         | Redundancy feature   | Faulty Repair Register Scan Input.  Redundancy Scan input bit.         |
++---------------+----------------------+------------------------------------------------------------------------+
+| FRSE          | Redundancy feature   | Faulty Repair Register Scan Enable Input.  Redundancy Scanning enable, |
+|               |                      | active high.                                                           |
++---------------+----------------------+------------------------------------------------------------------------+
+| FRSRST        | Redundancy feature   | Faulty Repair Register Scan Asynchronous Reset Input. Before memory    |
+|               |                      | normal access,  FRSRST must be performed a high to low(negative edge)  |
+|               |                      | control signal.                                                        |
++---------------+----------------------+------------------------------------------------------------------------+
+| FRSCLK        | Redundancy feature   | Faulty Repair Register Scan Clock.                                     |
++---------------+----------------------+------------------------------------------------------------------------+
+| T_ICLKBYP     | Self Time Bypass     | This pin must be controlled by software/firmware in silicon. \         |
+|               | feature              | In this mode (T_ICLKBYP=1), the memory’s internal self-timing loop is  |
+|               |                      | breakdown, and memory operation timing is controled by external CLK.   |
+|               |                      | It’s for memory debug purpose.                                         |
++---------------+----------------------+------------------------------------------------------------------------+
+| TME           | Always               | This pin must be controlled by software/firmware in silicon. \         |
+|               |                      | Timing Margin Control Enable input.\                                   |
+|               |                      | TME = 0, select the default Timing Margin Control setting; \           |
+|               |                      | TME = 1, select the external Timing Margin Control pin setting.        |
++---------------+----------------------+------------------------------------------------------------------------+
+| TM[3:0]       | Always               | This pin must be controlled by software/firmware in silicon.  \        |
+|               |                      | Timing Margin Control Input bus. \                                     |
+|               |                      | The setting of TM[3:0] controls the Tcq and Tcyc value of memory. \    |
+|               |                      | TM[3:0] = 4’b0000 is the slowest operating mode.                       |
++---------------+----------------------+------------------------------------------------------------------------+
+| RA [1:0]      | Read Assist feature  | It is strongly recommended that these pins be controllable by          |
+|               |                      | software/firmware in silicon, which is very helpful for overall        |
+|               |                      | production or testing. Read Assist input, used to control WL under-    |
+|               |                      | drive.                                                                 |
++---------------+----------------------+------------------------------------------------------------------------+
+| WA [2:0]      | Write Assist feature | It is strongly recommended that these pins be controllable by          |
+|               |                      | software/firmware in silicon, which is very helpful for overall        |
+|               |                      | production or testing. WA[2] is the Write Assist Enable pin (Active    |
+|               |                      | High). WA[1:0] are Write Assist pins, used to control the negative     |
+|               |                      | voltage on the SRAM bitline.                                           |
++---------------+----------------------+------------------------------------------------------------------------+
+| WPULSE [2:0]  | Write Assist feature | It is strongly recommended that these pins be controllable by          |
+|               |                      | software/firmware in silicon, which is very helpful for overall        |
+|               |                      | production or testing. Write Assist Pulse, used to control the pulse   |
+|               |                      | width of the negative voltage on the SRAM bitline.                     |
++---------------+----------------------+------------------------------------------------------------------------+
+| LS            | Always               | Light Sleep Mode Contorl Input. When the memory is disabled and this   |
+|               |                      | pin is set logic High, the memory enters low leakage mode. The output  |
+|               |                      | state remains unchanged.                                               |
++---------------+----------------------+------------------------------------------------------------------------+
+| DS            | Power Gating         | Deep Sleep Mode Control Input. This pin turns off the periphery power  |
+|               | feature              | supply while retaining the memory contents. The outputs of the memory  |
+|               |                      | are pulled low.                                                        |
++---------------+----------------------+------------------------------------------------------------------------+
+| SD            | Power Gating         | Shut Down Mode Contorl Input. This pin turns off the power supply to   |
+|               | feature              | the periphery and memory core, and does not retain the memory data.    |
++---------------+----------------------+------------------------------------------------------------------------+
+| BIST_D[3:0]   | Bist Mux feature     | Data input for BIST when BIST enable. This data input bus is used to   |
+|               |                      | write data into the memory location specified by the address input     |
+|               |                      | port during the Write cycle.                                           |
++---------------+----------------------+------------------------------------------------------------------------+
+| BIST_BWEN     | Bist Mux feature     | Bit Write Enable for BIST when BIST enable. Bit Write is enabled when  |
+|               |                      | BWEN is Logic Low. When the Bit Write feature is included, selective   |
+|               |                      | write to individual I/Os can be performed via Bit Write Enable         |
+|               |                      | signals. When the memory is in the Write cycle, writing can be         |
+|               |                      | performed only to certain I/Os.                                        |
++---------------+----------------------+------------------------------------------------------------------------+
+| BIST_A[m-1:0] | Bist Mux feature     | Address input for BIST when BIST enable. This address input port is    |
+|               |                      | used to address the location to be written during the Write cycle, and |
+|               |                      | to address the location to be read during the Read cycle.              |
++---------------+----------------------+------------------------------------------------------------------------+
+| BIST_WEN      | Bist Mux feature     | Global Write Enable input for BIST when BIST enable. The memory is in  |
+|               |                      | the Write cycle when the Global Write Enable input is Logic Low; the   |
+|               |                      | memory is in the Read cycle when it is Logic High.                     |
++---------------+----------------------+------------------------------------------------------------------------+
+| BIST_CEN      | Bist Mux feature     | Chip Enable input for BIST when BIST enable. The memory is enabled and |
+|               |                      | can perform read/write operations when BIST_CEN is Logic Low; the      |
+|               |                      | memory is disabled when it is Logic High.                              |
++---------------+----------------------+------------------------------------------------------------------------+
+| BIST_CLK      | Bist Mux feature     | Clock input for BIST when BIST enable. This is the external clock of   |
+|               |                      | the memory.                                                            |
++---------------+----------------------+------------------------------------------------------------------------+
+| BIST_CLKE     | Bist Mux feature     | Clock input enable for BIST when BIST enable.                          |
++---------------+----------------------+------------------------------------------------------------------------+
+| BIST_E        | Bist Mux feature     | BIST Mux Enable input. Default LOW, Active High. When the pin set      |
+|               |                      | High, memory receive input and drive output by total test pin.         |
++---------------+----------------------+------------------------------------------------------------------------+
+| SCE_CN        | Scan Chain feature   | Scan Chain Enable input for Control signals. Default LOW, active High. |
+|               |                      | When the pin set HIGH, memory function mode will be disabled.          |
++---------------+----------------------+------------------------------------------------------------------------+
+| SCE_Q         | Scan Chain feature   | Scan Chain Enable input for Data Output signals. Default LOW, active   |
+|               |                      | High.                                                                  |
++---------------+----------------------+------------------------------------------------------------------------+
+| SCI_D         | Scan Chain feature   | Scan Chain Input for Data input signals.                               |
++---------------+----------------------+------------------------------------------------------------------------+
+| SCI_CN        | Scan Chain feature   | Scan Chain Input for Contorl signals.                                  |
++---------------+----------------------+------------------------------------------------------------------------+
+| SCI_Q         | Scan Chain feature   | Scan Chain Input for Data output signals.                              |
++---------------+----------------------+------------------------------------------------------------------------+
+| DFTBYPASS     | Mbist feature        | Bypass input signal for MBIST mode, Default LOW, active HIGH. When the |
+|               |                      | pin set HIGH, memory will allow data input signals to be written in    |
+|               |                      | data output signals after clock rising edge.                           |
++---------------+----------------------+------------------------------------------------------------------------+
+| DFTCLKE       | Mbist feature        | Clock Enable Input for MBIST mode, Default LOW, active HIGH. When the  |
+|               |                      | pin set HIGH, memory will allow data output signals to be transmit to  |
+|               |                      | data output DFF chain.                                                 |
++---------------+----------------------+------------------------------------------------------------------------+
+| PIPE          | Mbist feature        | Enable Input for data output DFF chain, Default LOW, active HIGH. When |
+|               |                      | the pin set HIGH, memory will data output signals to be transmit to    |
+|               |                      | data output DFF chain.                                                 |
++---------------+----------------------+------------------------------------------------------------------------+
+| CAPTE         | Mbist feature        | Capture Enable Input for MBIST mode, Default LOW, active HIGH. When    |
+|               |                      | the pin set HIGH, memory will compare data output signals with compare |
+|               |                      | data bus, then output the compare result to data output DFF chain.     |
++---------------+----------------------+------------------------------------------------------------------------+
+| STICE         | Mbist feature        | Sticky Input for MBIST mode, Default LOW, active HIGH. When the pin    |
+|               |                      | set HIGH, data output DFF chain will output the `OR` logic result of   |
+|               |                      | the current value and the value of the previos cycle.                  |
++---------------+----------------------+------------------------------------------------------------------------+
+| CD[3:0]       | Mbist feature        | Compare Data Input for MBIST mode.                                     |
++---------------+----------------------+------------------------------------------------------------------------+
 
 Table: Input Pin Description
 
@@ -467,6 +548,14 @@ Table: Input Pin Description
 | PUR       | Power Gating feature | “Power Up Ready” pin is used to reduce the peak power during wake-up |
 |           |                      | from DS and SD modes when instances are cascaded. When memory is in  |
 |           |                      | operation, this flag pin must be high.                               |
++-----------+----------------------+----------------------------------------------------------------------+
+| SO_D      | Scan Chain feature   | Scan Chain Output for Data input signals.                            |
++-----------+----------------------+----------------------------------------------------------------------+
+| SO_CN     | Scan Chain feature   | Scan Chain Output for Contorl signals.                               |
++-----------+----------------------+----------------------------------------------------------------------+
+| SO_Q      | Scan Chain feature   | Scan Chain Output for Data output signals.                           |
++-----------+----------------------+----------------------------------------------------------------------+
+| QP[n-1:0] | Mbist feature        | Mbist Output for data output DFF chain.                              |
 +-----------+----------------------+----------------------------------------------------------------------+
 
 Table: Output Pin Description
@@ -490,13 +579,13 @@ Table: Output Pin Description
 | Column\   | Bank   | Word\   |   Word\ |   Word\ |   Bit\ |   Bit\ |   Bit\ | Maximum\   |
 | Mux       |        | Step    |     Min |     Max |   Step |    Min |    Max | Density    |
 +===========+========+=========+=========+=========+========+========+========+============+
-| 2         | 1      | 8       |      16 |     512 |      2 |      8 |    288 | 144Kb      |
+| 2         | 1      | 8       |       8 |     512 |      2 |      8 |    256 | 128Kb      |
 +-----------+--------+---------+---------+---------+--------+--------+--------+------------+
-| 2         | 2      | 8       |      32 |    1024 |      2 |      8 |    288 | 288Kb      |
+| 2         | 2      | 8       |      16 |    1024 |      2 |      8 |    256 | 256Kb      |
 +-----------+--------+---------+---------+---------+--------+--------+--------+------------+
-| 4         | 1      | 16      |      32 |    1024 |      1 |      8 |    144 | 144Kb      |
+| 4         | 1      | 16      |      32 |    1024 |      1 |      8 |    128 | 128Kb      |
 +-----------+--------+---------+---------+---------+--------+--------+--------+------------+
-| 4         | 2      | 16      |      64 |    2048 |      1 |      8 |    144 | 288Kb      |
+| 4         | 2      | 16      |      64 |    2048 |      1 |      8 |    128 | 256Kb      |
 +-----------+--------+---------+---------+---------+--------+--------+--------+------------+
 
 Table: Compiler Range
@@ -513,11 +602,12 @@ Table: Compiler Range
 ##### Memory Function Truth Table
 
 > Note: In the above truth table, the state of test signals is `T_ICLKBYP=L`.\
->       After Power up, before starting normal memory operation (read/write), a `Negedge(1->0)` must be performed on `FRSRST` first.\
+>       Before starting normal memory operation (read/write), a `Negedge(1->0)` must be performed on `FRSRST` first.\
 >       `NCM`: Memory bit-cell contents remain unchanged.\
 >       `Q-1`: Maintains the state of the previous cycle.\
 >       `Q`: Output without `CLK` latency.
 
+The following table shows the memory function truth table for this compiler.
 
 
 
@@ -539,14 +629,13 @@ Table: Compiler Range
 Table: Memory Function Truth Table
 
 
-
 ##### Power Mode Truth Table
 
 The following table shows the truth table for Power mode.
 
 > Note: This function is valid when the `Power Gating feature` is selected.\
 >       In Periphery Off modes, the Periphery supply `VDD` is allowed to be powered down.\
->       `Q-1` = Memory output maintains the state of the previous cycle.
+>       `Q-1` = Memory output maintains the state of the previous cycle.\
 
 
 
@@ -616,31 +705,32 @@ The figure below shows the conventions used in the waveform diagrams.
 
 
 
-![Waveform Conventions](../Template/SC/V02/Figure\High Speed One Port Register File\waveform_conventions.png)
+![Waveform Conventions](../Template/SC/V02/Figure\High Density One Port Register File\waveform_conventions.png)
 
 
 
-![Read Cycle Timing Diagram](../Template/SC/V02/Figure\High Speed One Port Register File\read_cycle_timing_diagram.png)
-
-
-
-
-![Write Cycle Timing Diagram](../Template/SC/V02/Figure\High Speed One Port Register File\write_cycle_timing_diagram.png)
-
-
-
-![Light Sleep Mode Work Function Diagram](../Template/SC/V02/Figure\High Speed One Port Register File\light_sleep_mode_work_function_diagram.png)
+![Read Cycle Timing Diagram](../Template/SC/V02/Figure\High Density One Port Register File\read_cycle_timing_diagram.png)
 
 
 
 
-
-![Deep Sleep Mode Work Function Diagram](../Template/SC/V02/Figure\High Speed One Port Register File\deep_sleep_mode_work_function_diagram.png)
-
+![Write Cycle Timing Diagram](../Template/SC/V02/Figure\High Density One Port Register File\write_cycle_timing_diagram.png)
 
 
 
-![Shut Down Mode Work Function Diagram](../Template/SC/V02/Figure\High Speed One Port Register File\shut_down_mode_work_function_diagram.png)
+![Light Sleep Mode Work Function Diagram](../Template/SC/V02/Figure\High Density One Port Register File\light_sleep_mode_work_function_diagram.png)
+
+
+
+
+
+
+![Deep Sleep Mode Work Function Diagram](../Template/SC/V02/Figure\High Density One Port Register File\deep_sleep_mode_work_function_diagram.png)
+
+
+
+
+![Shut Down Mode Work Function Diagram](../Template/SC/V02/Figure\High Density One Port Register File\shut_down_mode_work_function_diagram.png)
 
 
 
@@ -675,8 +765,6 @@ The figure below shows the conventions used in the waveform diagrams.
 +------------------------------------------+-----------+--------+---------+----------------+------------------+
 
 Table: Standard PVT Corners - Single Rail
-
-
 
 
 

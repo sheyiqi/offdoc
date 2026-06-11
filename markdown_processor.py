@@ -5,10 +5,8 @@ import subprocess
 import sys
 from typing import Dict, List
 from pathlib import Path
-import cn2an
+#import cn2an
 
-
- 
 def get_path(relative_path):
     try:
         base_path = sys._MEIPASS
@@ -62,7 +60,15 @@ def process_markdown_file(input_file: str = 'all.md', output_file: str = 'output
     skipped_chapters = 0  # 已跳过的二级标题计数，用于跳过摘要
     processed_lines: List[str] = []
     in_code_block = False  # 标记是否在代码块中
+
+    waveindex=0
+    for line in lines:
+        if line.startswith('## ') and "Product" not in line:
+            waveindex+=1
+        if line.startswith('## ') and "Product" in line:
+            break
     
+    print(waveindex)
     for line in lines:
         # 检测代码块开始或结束
         if line.strip().startswith('```'):
@@ -78,7 +84,7 @@ def process_markdown_file(input_file: str = 'all.md', output_file: str = 'output
         # 处理二级标题 (##)
         if line.startswith('## '):
             skipped_chapters += 1
-            if skipped_chapters <= 3:
+            if skipped_chapters <= waveindex:
                 # 跳过前两个二级标题，不做编号处理，因为这俩是摘要
                 # 如果要改实现，记得改这里
                 processed_lines.append(line)
@@ -93,7 +99,7 @@ def process_markdown_file(input_file: str = 'all.md', output_file: str = 'output
             continue
         
         elif line.startswith('### '):
-            if skipped_chapters <= 2:
+            if skipped_chapters <= waveindex:
                 processed_lines.append(line)
                 continue
                 
@@ -104,7 +110,7 @@ def process_markdown_file(input_file: str = 'all.md', output_file: str = 'output
             continue
         
         elif line.startswith('#### '):
-            if skipped_chapters <= 2:
+            if skipped_chapters <= waveindex:
                 processed_lines.append(line)
                 continue
                 
@@ -115,7 +121,7 @@ def process_markdown_file(input_file: str = 'all.md', output_file: str = 'output
             continue
         
         elif line.startswith('##### '):
-            if skipped_chapters <= 2:
+            if skipped_chapters <= waveindex:
                 processed_lines.append(line)
                 continue
                 
@@ -126,7 +132,7 @@ def process_markdown_file(input_file: str = 'all.md', output_file: str = 'output
             continue
         
         elif line.startswith('###### '):
-            if skipped_chapters <= 2:
+            if skipped_chapters <= waveindex:
                 processed_lines.append(line)
                 continue
                 
@@ -141,7 +147,7 @@ def process_markdown_file(input_file: str = 'all.md', output_file: str = 'output
         reference_def_match = re.match(r'^\[(.*?)\]:\s*(.*?)(?:\s+\{(.*?)\})?$', line)  # 处理引用定义 [id]: path {attrs}
 
         if img_inline_match:
-            if skipped_chapters <= 2:
+            if skipped_chapters <= waveindex:
                 processed_lines.append(line)
                 continue
                 
@@ -153,7 +159,7 @@ def process_markdown_file(input_file: str = 'all.md', output_file: str = 'output
             processed_lines.append(processed_line)
             continue
         elif img_inline_with_size_match:
-            if skipped_chapters <= 2:
+            if skipped_chapters <= waveindex:
                 processed_lines.append(line)
                 continue
                 
@@ -166,7 +172,7 @@ def process_markdown_file(input_file: str = 'all.md', output_file: str = 'output
             processed_lines.append(processed_line)
             continue
         elif img_reference_match:
-            if skipped_chapters <= 2:
+            if skipped_chapters <= waveindex:
                 processed_lines.append(line)
                 continue
                 
@@ -183,7 +189,7 @@ def process_markdown_file(input_file: str = 'all.md', output_file: str = 'output
             continue
         
         if line.startswith('Table: '):
-            if skipped_chapters <= 2:
+            if skipped_chapters <= waveindex:
                 processed_lines.append(line)
                 continue
                 
@@ -215,11 +221,15 @@ def process_markdown_file(input_file: str = 'all.md', output_file: str = 'output
     pandoc_cmd = [
         'pandoc',
         output_file,
-        '--lua-filter={}'.format(get_path('./public/pandocScripts/filter.lua')),
-        '--bibliography={}'.format(get_path('./public/references.bib')),
+        #'--lua-filter={}'.format(get_path('./public/pandocScripts/filter.lua')),
+        #'--bibliography={}'.format(get_path('./public/references.bib')),
+        #'--csl={}'.format(get_path('./public/pandocAssets/chinese-gb7714-2005-numeric.csl')),
+        #'--reference-doc={}'.format(get_path('./public/pandocAssets/custom-reference.docx')),
+        '--lua-filter={}'.format(os.path.join(os.path.dirname(__file__), './public/pandocScripts/filter.lua')),
+        '--bibliography={}'.format(os.path.join(os.path.dirname(__file__), './public/references.bib')),
+        '--csl={}'.format(os.path.join(os.path.dirname(__file__), './public/pandocAssets/chinese-gb7714-2005-numeric.csl')),
+        '--reference-doc={}'.format(os.path.join(os.path.dirname(__file__), './public/pandocAssets/custom-reference.docx')),
         '--citeproc',
-        '--csl={}'.format(get_path('./public/pandocAssets/chinese-gb7714-2005-numeric.csl')),
-        '--reference-doc={}'.format(get_path('./public/pandocAssets/custom-reference.docx')),
         '--toc',
         '--toc-depth=4',
         '--variable=longtable',

@@ -12,7 +12,7 @@ The read operation time of ROM is controlled by Timing Margin.The read operation
 
 Read operations in ROM require a certain amount of time to ensure their completion. In fact, there is a negative correlation between the capacity and yield of ROM, meaning that a larger capacity often indicates a lower yield.
 
-As the capacity increases, ROM bitcell exhibits varying variability, leading to distinct characteristics in its read  capabilities. This variability can be mitigated by extending the duration of read  operations. This underscores the trade-off between memory speed and yield/reliability: a longer delay enhances read robustness but slows down the operational speed
+As the capacity increases, ROM bitcell exhibits varying variability, leading to distinct characteristics in its read  capabilities. This variability can be mitigated by extending the duration of read  operations. This underscores the trade-off between memory speed and yield/reliability: a longer delay enhances read robustness but slows down the operational speed.
 
 Memory compiler controls the operating frequency of the compiler and the robustness of ROM read operations through `Timing Margin Control`.
 

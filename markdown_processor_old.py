@@ -5,7 +5,7 @@ import subprocess
 import sys
 from typing import Dict, List
 from pathlib import Path
-import cn2an
+#import cn2an
 
 
  
@@ -78,7 +78,7 @@ def process_markdown_file(input_file: str = 'all.md', output_file: str = 'output
         # 处理二级标题 (##)
         if line.startswith('## '):
             skipped_chapters += 1
-            if skipped_chapters <= 0:
+            if skipped_chapters <= 3:
                 # 跳过前两个二级标题，不做编号处理，因为这俩是摘要
                 # 如果要改实现，记得改这里
                 processed_lines.append(line)
@@ -93,7 +93,7 @@ def process_markdown_file(input_file: str = 'all.md', output_file: str = 'output
             continue
         
         elif line.startswith('### '):
-            if skipped_chapters <= 0:
+            if skipped_chapters <= 2:
                 processed_lines.append(line)
                 continue
                 
@@ -104,7 +104,7 @@ def process_markdown_file(input_file: str = 'all.md', output_file: str = 'output
             continue
         
         elif line.startswith('#### '):
-            if skipped_chapters <= 0:
+            if skipped_chapters <= 2:
                 processed_lines.append(line)
                 continue
                 
@@ -115,7 +115,7 @@ def process_markdown_file(input_file: str = 'all.md', output_file: str = 'output
             continue
         
         elif line.startswith('##### '):
-            if skipped_chapters <= 0:
+            if skipped_chapters <= 2:
                 processed_lines.append(line)
                 continue
                 
@@ -126,7 +126,7 @@ def process_markdown_file(input_file: str = 'all.md', output_file: str = 'output
             continue
         
         elif line.startswith('###### '):
-            if skipped_chapters <= 0:
+            if skipped_chapters <= 2:
                 processed_lines.append(line)
                 continue
                 
@@ -141,7 +141,7 @@ def process_markdown_file(input_file: str = 'all.md', output_file: str = 'output
         reference_def_match = re.match(r'^\[(.*?)\]:\s*(.*?)(?:\s+\{(.*?)\})?$', line)  # 处理引用定义 [id]: path {attrs}
 
         if img_inline_match:
-            if skipped_chapters <= 0:
+            if skipped_chapters <= 2:
                 processed_lines.append(line)
                 continue
                 
@@ -153,7 +153,7 @@ def process_markdown_file(input_file: str = 'all.md', output_file: str = 'output
             processed_lines.append(processed_line)
             continue
         elif img_inline_with_size_match:
-            if skipped_chapters <= 0:
+            if skipped_chapters <= 2:
                 processed_lines.append(line)
                 continue
                 
@@ -166,7 +166,7 @@ def process_markdown_file(input_file: str = 'all.md', output_file: str = 'output
             processed_lines.append(processed_line)
             continue
         elif img_reference_match:
-            if skipped_chapters <= 0:
+            if skipped_chapters <= 2:
                 processed_lines.append(line)
                 continue
                 
@@ -183,7 +183,7 @@ def process_markdown_file(input_file: str = 'all.md', output_file: str = 'output
             continue
         
         if line.startswith('Table: '):
-            if skipped_chapters <= 0:
+            if skipped_chapters <= 2:
                 processed_lines.append(line)
                 continue
                 

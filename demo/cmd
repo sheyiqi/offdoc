@@ -1,2 +1,0 @@
-#!/usr/bin/env tcsh
-python ../offdoc.py -cfg "../demo/SC_HS1PRF_Datasheet_Config.xlsx" -template "../Template/SC/" -output HS1PRF.md

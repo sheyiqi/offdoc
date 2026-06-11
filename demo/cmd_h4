@@ -1,0 +1,26 @@
+#!/usr/bin/env tcsh
+
+python ../offdoc.py -cfg "Z:\projects\Offical Document\SH005S\20260611\SC_HS1PRF_Datasheet_Config.xlsx" -template "../Template/SC/" -output HS1PRF.md
+python ../markdown_processor.py -input HS1PRF.md -output High_Speed_One_Port_Register_File_user_manual
+
+python ../offdoc.py -cfg "Z:\projects\Offical Document\SH005S\20260611\SC_HD1PRF_Datasheet_Config.xlsx" -template "../Template/SC/" -output HD1PRF.md
+python ../markdown_processor.py -input HD1PRF.md -output High_Density_One_Port_Register_File_user_manual
+
+python ../offdoc.py -cfg "Z:\projects\Offical Document\SH005S\20260611\SC_HS2PRF_Datasheet_Config.xlsx" -template "../Template/SC/" -output HS2PRF.md
+python ../markdown_processor.py -input HS2PRF.md -output High_Speed_Two_Port_Register_File_user_manual
+
+python ../offdoc.py -cfg "Z:\projects\Offical Document\SH005S\20260611\SC_UHD2PRF_Datasheet_Config.xlsx" -template "../Template/SC/" -output UHD2PRF.md
+python ../markdown_processor.py -input UHD2PRF.md -output Ultra_High_Density_Two_Port_Register_File_user_manual
+
+python ../offdoc.py -cfg "Z:\projects\Offical Document\SH005S\20260611\SC_UHDSPSR_Datasheet_Config.xlsx" -template "../Template/SC/" -output UHDSPSR.md
+python ../markdown_processor.py -input UHDSPSR.md -output Ultra_High_Density_Single_Port_SRAM_Compiler_user_manual
+
+python ../offdoc.py -cfg "Z:\projects\Offical Document\SH005S\20260611\SC_HDDPSR_Datasheet_Config.xlsx" -template "../Template/SC/" -output HDDPSR.md
+python ../markdown_processor.py -input HDDPSR.md -output High_Density_Dual_Port_SRAM_Compiler_user_manual
+
+python ../offdoc.py -cfg "Z:\projects\Offical Document\SH005S\20260611\SC_HDVO_Datasheet_Config.xlsx" -template "../Template/SC/" -output HDVO.md
+python ../markdown_processor.py -input HDVO.md -output High_Density_VIA_ROM_Compiler_user_manual
+
+python ../offdoc.py -cfg "Z:\projects\Offical Document\SH005S\20260611\SC_HSSPSR_Datasheet_Config.xlsx" -template "../Template/SC/" -output HSSPSR.md
+python ../markdown_processor.py -input HSSPSR.md -output High_Speed_Single_Port_SRAM_Compiler_user_manual
+

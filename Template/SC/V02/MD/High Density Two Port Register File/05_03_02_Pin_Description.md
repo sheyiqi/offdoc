@@ -21,3 +21,4 @@ Table: Output Pin Description
 >           A Port means Write Port.\
 >           B Port Means Read Port.
 
+
