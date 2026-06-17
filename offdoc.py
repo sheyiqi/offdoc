@@ -92,7 +92,7 @@ def get_table_from_excel(excel_file):
             md_table_name = list(excel_file_data['Table Name'])[0]
             excel_file_data = excel_file_data.drop('Table Name', axis=1)
             if "Standard PVT Corners" in md_table_name:
-                md_table_cont = tabulate(excel_file_data, headers="keys", tablefmt="grid", showindex=False, maxcolwidths=(40,10,6,6,20,30), colalign=("left","left","left","left","left","left"))
+                md_table_cont = tabulate(excel_file_data, headers="keys", tablefmt="grid", showindex=False, maxcolwidths=(45,10,6,6,20,30), colalign=("left","left","left","left","left","left"))
             elif "Timing Mode Settings" in md_table_name or 'Repair Elements Mode' in md_table_name or 'Performance Shape Settings' in md_table_name or 'Bit Write Enable' in md_table_name or 'CEN-Gating' in md_table_name:
                 md_table_cont = tabulate(excel_file_data, headers="keys", tablefmt="grid", showindex=False, maxcolwidths=(15,70), colalign=("left","left"))
             else:

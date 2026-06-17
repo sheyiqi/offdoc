@@ -18,11 +18,11 @@ Memory compiler controls the operating frequency of the compiler and the robustn
 
 Table: Timing Mode Settings
 
-Memory compiler provides the enable signal through the `TMEH/TMEL` pin. The `TMEH/TMEL` pin allows for the selection between internal default margin control and external margin control. When `TMEH/TMEL` is low, the instance uses the default self-timing control.
+Memory compiler provides the enable signal through the `TME` pin. The `TME` pin allows for the selection between internal default margin control and external margin control. When `TME` is low, the instance uses the default self-timing control.
 
-There are `Timing Margin Control` bus pins available in the memory compiler. `TMH/TML` are used to trade-off between speed and robustness (`yield`). It is required that external access to all `TMH/TML` pins, including `TMEH/TMEL`, is provided for debug and yield analysis purposes. 
+There are `Timing Margin Control` bus pins available in the memory compiler. `TMH/TML` are used to trade-off between speed and robustness (`yield`). It is required that external access to all `TMH/TML` pins, including `TME`, is provided for debug and yield analysis purposes. 
 
-When `TMEH/TMEL` is high, instance margin could be adjusted by the Timing input pins. 
+When `TME` is high, instance margin could be adjusted by the Timing input pins. 
 The margin sequentially increases as `TMH/TML` sequentially decrease from All 1 to All 0, but the access time and cycle time will be sequentially enlarged as the pins driven from All 1 to All 0.
 
 The `Timing Margin Control` settings are user-adjustable. The user-side `TMH/TML` interface is uniformly encoded, ensuring that all compilers have the same default `TMH/TML` value. Users can configure the settings from the options shown in the table below according to their application requirements.    
